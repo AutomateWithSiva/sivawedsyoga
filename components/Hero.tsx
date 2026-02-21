@@ -93,7 +93,7 @@ export default function Hero() {
         animate="visible"
       >
         <motion.p variants={item} className="font-heading text-amber-200/95 text-sm sm:text-base md:text-lg tracking-[0.2em] sm:tracking-[0.3em] uppercase mb-2">
-          You're Invited
+          {"You're Invited"}
         </motion.p>
         <motion.p variants={item} className="font-body text-cream-200/90 text-base sm:text-lg md:text-xl mb-4">
           to celebrate the Wedding Reception of
