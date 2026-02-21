@@ -9,8 +9,8 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main className="min-h-screen">
-      <section className="relative">
+    <main className="min-h-screen overflow-x-hidden max-w-full">
+      <section className="relative overflow-x-hidden max-w-full">
         <Hero />
         <GoldenParticles />
       </section>

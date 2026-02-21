@@ -4,7 +4,6 @@
 
 export const COUPLE = {
   names: "Sivakumaaran & Yogalakshmi",
-  short: "Sivakumaaran & Yogalakshmi",
 } as const;
 
 export const EVENT = {

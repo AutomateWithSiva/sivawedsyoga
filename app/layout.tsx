@@ -61,7 +61,7 @@ export default function RootLayout({
       lang="en"
       className={`${playfair.variable} ${cormorant.variable} ${inter.variable}`}
     >
-      <body className="min-h-screen bg-theme-bg" style={{ backgroundColor: "var(--bg)" }}>{children}</body>
+      <body className="min-h-screen bg-theme-bg overflow-x-hidden max-w-full" style={{ backgroundColor: "var(--bg)" }}>{children}</body>
     </html>
   );
 }
