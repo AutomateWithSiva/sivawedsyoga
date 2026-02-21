@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== South Indian Traditional Gold Theme – Design system ===== */
+:root {
+  --bg: #faf8f5;
+  --card: #ffffff;
+  --text: #1c1917;
+  --muted: #78716c;
+  --gold: #b8954a;
+  --maroon: #7c2d12;
+  --gold-soft: rgba(184, 149, 74, 0.12);
+  --maroon-soft: rgba(124, 45, 18, 0.08);
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  font-family: var(--font-inter), system-ui, sans-serif;
+  color: var(--text);
+  background-color: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Kolam/mandala-style subtle background pattern (CSS only) */
+.pattern-kolam {
+  background-image: 
+    radial-gradient(circle at 20% 30%, var(--gold-soft) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, var(--gold-soft) 0%, transparent 40%),
+    radial-gradient(1.5px 1.5px at 2px 2px, var(--gold-soft) 50%, transparent 50%);
+  background-size: 100% 100%, 100% 100%, 24px 24px;
+  background-position: 0 0, 0 0, 0 0;
+}
+
+/* Selection */
+::selection {
+  background-color: rgba(184, 149, 74, 0.25);
+  color: var(--maroon);
+}
+
+/* Golden particles – slow float (used only when reduced-motion is off) */
+@keyframes particle-float {
+  0%, 100% { background-position: 0% 0%; }
+  25% { background-position: 100% 50%; }
+  50% { background-position: 50% 100%; }
+  75% { background-position: 0% 50%; }
+}
+
+/* Scrollbar – gold accent */
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--gold);
+    opacity: 0.5;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    opacity: 0.7;
+  }
+}
