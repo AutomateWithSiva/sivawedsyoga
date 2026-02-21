@@ -60,11 +60,18 @@ export default function Hero() {
           loop
           muted
           playsInline
+          preload="auto"
           poster={posterSrc}
-          className="absolute inset-0 w-full h-full object-cover object-center blur-md"
+          className="absolute inset-0 w-full h-full object-cover object-center blur-[8px]"
           aria-label="Wedding video"
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
+          onEnded={() => {
+            if (videoRef.current) {
+              videoRef.current.currentTime = 0;
+              videoRef.current.play().catch(() => {});
+            }
+          }}
         >
           <source src={videoSrc} type="video/mp4" />
         </video>
