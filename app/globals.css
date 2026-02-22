@@ -64,12 +64,17 @@ body {
   75% { background-position: 0% 50%; }
 }
 
-/* Overlay screen – opens bottom to top */
+/* Overlay screen – slides up like a real screen (anchored at bottom, smooth deceleration) */
 .overlay-screen-panel {
-  transition: transform 0.9s cubic-bezier(0.32, 0.72, 0, 1);
+  transform-origin: center bottom;
+  transition:
+    transform 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.12);
 }
 .overlay-screen-open .overlay-screen-panel {
   transform: translateY(-100%);
+  box-shadow: 0 -8px 32px transparent;
 }
 @media (prefers-reduced-motion: reduce) {
   .overlay-screen-panel {

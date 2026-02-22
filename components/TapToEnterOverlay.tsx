@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
+import { motion } from "framer-motion";
 import { useWeddingMusic } from "@/contexts/WeddingMusicContext";
 import { useAssetsLoader } from "@/contexts/AssetsLoaderContext";
 import { COUPLE, EVENT } from "@/lib/constants";
@@ -91,12 +92,18 @@ export default function TapToEnterOverlay() {
             className="inline-block h-px w-16 rounded-full"
             style={{ backgroundColor: "var(--gold)" }}
           />
-          <p
-            className="font-heading text-xl sm:text-2xl font-medium tracking-wide"
+          <motion.p
+            className="font-heading text-2xl sm:text-3xl md:text-4xl font-medium tracking-wide"
             style={{ color: "var(--gold)" }}
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{
+              duration: 1.8,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
           >
             Tap to Enter
-          </p>
+          </motion.p>
         </div>
       </button>
 
