@@ -1,13 +1,6 @@
 import { ImageResponse } from "next/og";
 
-/**
- * Favicon / app icon placeholder.
- * Replace with a static favicon.ico in /app or customise this ImageResponse.
- */
-export const size = { width: 32, height: 32 };
-export const contentType = "image/png";
-
-export default function Icon() {
+export function GET() {
   return new ImageResponse(
     (
       <div
@@ -28,6 +21,6 @@ export default function Icon() {
         W
       </div>
     ),
-    { ...size }
+    { width: 32, height: 32 }
   );
 }

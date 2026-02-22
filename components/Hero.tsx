@@ -62,7 +62,7 @@ export default function Hero() {
           playsInline
           preload="auto"
           poster={posterSrc}
-          className="absolute inset-0 w-full h-full object-cover object-center blur-[8px]"
+          className="absolute inset-0 w-full h-full object-cover object-center blur-[4px]"
           aria-label="Wedding video"
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}

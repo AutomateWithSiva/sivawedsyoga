@@ -28,6 +28,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  icons: { icon: "/icon" },
   title: "Sivakumaaran & Yogalakshmi — Wedding Reception | March 6, 2026",
   description:
     "You're invited to our Wedding Reception on March 6, 2026 at Sowbhagya Mahal, Koyambedu, Chennai. From 6:00 PM onwards. Near Arumbakkam Metro Station.",

@@ -42,9 +42,9 @@ export const HERO_VIDEO = {
   poster: "/media/sy-poster.png",
 } as const;
 
-/** Background music path (in public). Add file at public/audio/bg-music.mp3 */
+/** Background music path (in public). */
 export const AUDIO = {
-  bgMusic: "/audio/bg-music.mp3",
+  bgMusic: "/audio/audio1.mp3",
 } as const;
 
 /** Social preview image. Add public/og.jpg for Open Graph. */

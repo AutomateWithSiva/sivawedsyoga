@@ -5,7 +5,7 @@
 /* ===== South Indian Traditional Gold Theme – Design system ===== */
 :root {
   --bg: #faf8f5;
-  --card: #ffffff;
+  --card: transparent;
   --text: #1c1917;
   --muted: #78716c;
   --gold: #b8954a;
@@ -62,6 +62,22 @@ body {
   25% { background-position: 100% 50%; }
   50% { background-position: 50% 100%; }
   75% { background-position: 0% 50%; }
+}
+
+/* Curtain opening overlay */
+.curtain-panel {
+  transition: transform 0.9s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.curtains-open .curtain-panel-left {
+  transform: translateX(-100%);
+}
+.curtains-open .curtain-panel-right {
+  transform: translateX(100%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .curtain-panel {
+    transition-duration: 0.2s;
+  }
 }
 
 /* Venue map: 4:3 on mobile, 16:9 landscape on tablet/desktop */
