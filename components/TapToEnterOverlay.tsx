@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import { useWeddingMusic } from "@/contexts/WeddingMusicContext";
+import { COUPLE, EVENT } from "@/lib/constants";
 
 export default function TapToEnterOverlay() {
   const { unmute } = useWeddingMusic();
@@ -42,20 +43,26 @@ export default function TapToEnterOverlay() {
         className="absolute inset-0 z-10 w-full h-full cursor-pointer select-none flex flex-col items-center justify-center gap-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-inset"
         aria-label="Tap to enter invitation"
       >
-        <div className="flex flex-col items-center justify-center gap-3 px-6 text-center pointer-events-none">
+        <div className="flex flex-col items-center justify-center gap-4 px-6 text-center pointer-events-none max-w-lg">
           <p
             className="font-heading text-3xl sm:text-4xl md:text-5xl font-semibold tracking-wide"
             style={{ color: "var(--text)" }}
           >
-            Tap to Enter
+            You&apos;re Invited
           </p>
-          <p className="font-body text-sm sm:text-base text-theme-muted max-w-xs">
-            You&apos;re invited
+          <p className="font-body text-base sm:text-lg text-theme-muted leading-relaxed">
+            to celebrate the {EVENT.title} of {COUPLE.names}
           </p>
           <span
-            className="mt-2 inline-block h-px w-16 rounded-full"
+            className="inline-block h-px w-16 rounded-full"
             style={{ backgroundColor: "var(--gold)" }}
           />
+          <p
+            className="font-heading text-xl sm:text-2xl font-medium tracking-wide"
+            style={{ color: "var(--gold)" }}
+          >
+            Tap to Enter
+          </p>
         </div>
       </button>
 

@@ -46,7 +46,7 @@ function saveTime(t: number) {
 export function WeddingMusicProvider({ children }: { children: React.ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const isPlayingRef = useRef(true);
-  const [isPlaying, setIsPlaying] = useState(readPlayingPreference);
+  const [isPlaying, setIsPlaying] = useState(true);
   isPlayingRef.current = isPlaying;
 
   useEffect(() => {
@@ -65,6 +65,7 @@ export function WeddingMusicProvider({ children }: { children: React.ReactNode }
     } else {
       setIsPlaying(false);
     }
+    isPlayingRef.current = pref;
 
     const saveState = () => {
       const el = audioRef.current;
