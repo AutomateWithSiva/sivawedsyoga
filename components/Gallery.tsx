@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-/** Add image1, image2, … image6 to public/media/ with the extension below (e.g. .jpg or .png) */
+/** Add image1, image2, … image4 to public/media/ with the extension below (e.g. .jpg or .png) */
 const GALLERY_EXT = ".jpg";
-const GALLERY_IMAGES = [1, 2, 3, 4, 5, 6].map((n) => ({
+const GALLERY_IMAGES = [1, 2, 3, 4].map((n) => ({
   id: n,
   src: `/media/image${n}${GALLERY_EXT}`,
   alt: `Gallery image ${n}`,
@@ -40,7 +40,7 @@ export default function Gallery() {
           A glimpse of our moments
         </motion.p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
           {GALLERY_IMAGES.map((img, i) => (
             <motion.button
               key={img.id}

@@ -66,7 +66,7 @@ export default function Hero() {
             Yogalakshmi
           </p>
         </motion.div>
-        <motion.p variants={item} className="font-body text-cream-200 text-xl sm:text-2xl md:text-3xl mb-1">
+        <motion.p variants={item} className="font-body text-cream-200 text-2xl sm:text-3xl md:text-4xl mb-1">
           March 6, 2026
         </motion.p>
         <motion.p variants={item} className="font-body text-cream-300/90 text-lg sm:text-xl md:text-2xl mb-4">
