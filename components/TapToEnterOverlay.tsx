@@ -93,7 +93,7 @@ export default function TapToEnterOverlay() {
             style={{ backgroundColor: "var(--gold)" }}
           />
           <motion.p
-            className="font-heading text-2xl sm:text-3xl md:text-4xl font-medium tracking-wide"
+            className="font-heading text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide"
             style={{ color: "var(--gold)" }}
             animate={{ scale: [1, 1.1, 1] }}
             transition={{
