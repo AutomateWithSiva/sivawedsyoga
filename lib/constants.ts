@@ -36,13 +36,8 @@ export const VENUE = {
   calendarLink: `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent("Sivakumaaran & Yogalakshmi – Wedding Reception")}&dates=20260306T123000Z/20260306T180000Z&details=${encodeURIComponent(VENUE_LANDMARK)}&location=${encodeURIComponent(VENUE_ADDRESS_LINE)}`,
 } as const;
 
-/** Hero background: video and poster paths (in public). Use gif for reliable autoplay/loop on Brave, Safari, and mobile. */
-export const HERO_VIDEO = {
-  src: "/media/sy-video.m4v",
-  poster: "/media/sy-poster.png",
-  /** Set to "/media/hero.gif" after converting video to GIF (no autoplay restrictions). Convert with: ffmpeg -i public/media/sy-video.m4v -vf "fps=10,scale=720:-1:flags=lanczos" -c:v gif public/media/hero.gif */
-  gif: undefined as string | undefined,
-} as const;
+/** Hero background image path (in public). */
+export const HERO_IMAGE = "/media/sy-poster.png";
 
 /** Background music path (in public). */
 export const AUDIO = {

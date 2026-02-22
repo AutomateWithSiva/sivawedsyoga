@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { HERO_VIDEO } from "@/lib/constants";
+import { HERO_IMAGE } from "@/lib/constants";
 import CountdownOverlay from "./CountdownOverlay";
 import { useAssetsLoader } from "@/contexts/AssetsLoaderContext";
 
@@ -25,54 +24,6 @@ const item = {
 
 export default function Hero() {
   const { setVideoReady } = useAssetsLoader();
-  const [reduceMotion, setReduceMotion] = useState(false);
-  const [playing, setPlaying] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduceMotion(mq.matches);
-    const handler = () => setReduceMotion(mq.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
-
-  useEffect(() => {
-    const onVisibilityChange = () => {
-      if (document.visibilityState !== "visible") return;
-      const video = videoRef.current;
-      if (video?.paused) video.play().catch(() => {});
-    };
-    document.addEventListener("visibilitychange", onVisibilityChange);
-    return () => document.removeEventListener("visibilitychange", onVisibilityChange);
-  }, []);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [e] = entries;
-        if (e?.isIntersecting && video.paused) video.play().catch(() => {});
-      },
-      { threshold: 0.25 }
-    );
-    observer.observe(video);
-    return () => observer.disconnect();
-  }, []);
-
-  const shouldAutoplay = !reduceMotion;
-  const useGif = HERO_VIDEO.gif;
-  const videoSrc = encodeURI(HERO_VIDEO.src);
-  const posterSrc = HERO_VIDEO.poster;
-  const heroBgClass = "absolute inset-0 w-full h-full object-cover object-center blur-[6px]";
-
-  const handlePlayClick = () => {
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {});
-      setPlaying(true);
-    }
-  };
 
   return (
     <section
@@ -80,57 +31,14 @@ export default function Hero() {
       className="relative z-10 min-h-screen flex flex-col items-center justify-center overflow-hidden bg-stone-900 px-4 py-12 md:py-20"
       aria-label="Welcome"
     >
-      {/* Hero background: GIF (reliable loop on all browsers) or video */}
+      {/* Hero background image */}
       <div className="absolute inset-0">
-        {useGif ? (
-          <>
-            {reduceMotion ? (
-              <img src={posterSrc} alt="" className={heroBgClass} onLoad={() => setVideoReady(true)} />
-            ) : (
-              <img src={useGif} alt="" className={heroBgClass} onLoad={() => setVideoReady(true)} />
-            )}
-          </>
-        ) : (
-          <>
-            <video
-              ref={videoRef}
-              autoPlay={shouldAutoplay}
-              loop
-              muted
-              playsInline
-              preload="auto"
-              poster={posterSrc}
-              className={heroBgClass}
-              aria-label="Wedding video"
-              onLoadedData={() => setVideoReady(true)}
-              onCanPlay={() => setVideoReady(true)}
-              onPlay={() => setPlaying(true)}
-              onPause={() => setPlaying(false)}
-              onEnded={() => {
-                if (videoRef.current) {
-                  videoRef.current.currentTime = 0;
-                  videoRef.current.play().catch(() => {});
-                }
-              }}
-            >
-              <source src={videoSrc} type="video/mp4" />
-            </video>
-            {reduceMotion && !playing && (
-              <button
-                type="button"
-                onClick={handlePlayClick}
-                className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/10 transition-colors z-10"
-                aria-label="Play video"
-              >
-                <span className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/20 backdrop-blur flex items-center justify-center text-white">
-                  <svg className="w-8 h-8 md:w-10 md:h-10 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </span>
-              </button>
-            )}
-          </>
-        )}
+        <img
+          src={HERO_IMAGE}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover object-center blur-[6px]"
+          onLoad={() => setVideoReady(true)}
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/70" />
       </div>
 
@@ -174,37 +82,35 @@ export default function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* Scroll indicator – arrow + hint (respect reduced motion) */}
-      {!reduceMotion && (
+      {/* Scroll indicator – arrow + hint */}
+      <motion.div
+        className="absolute bottom-16 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5, duration: 0.6 }}
+      >
+        <span className="font-body text-amber-200/90 text-xs sm:text-sm tracking-widest uppercase">
+          Scroll down
+        </span>
         <motion.div
-          className="absolute bottom-16 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 0.6 }}
+          className="flex flex-col items-center"
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
-          <span className="font-body text-amber-200/90 text-xs sm:text-sm tracking-widest uppercase">
-            Scroll down
-          </span>
-          <motion.div
-            className="flex flex-col items-center"
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          <svg
+            className="w-8 h-8 sm:w-10 sm:h-10 text-amber-400/80"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            viewBox="0 0 24 24"
+            aria-hidden
           >
-            <svg
-              className="w-8 h-8 sm:w-10 sm:h-10 text-amber-400/80"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              viewBox="0 0 24 24"
-              aria-hidden
-            >
-              <path d="M12 5v14M19 12l-7 7-7-7" />
-            </svg>
-          </motion.div>
+            <path d="M12 5v14M19 12l-7 7-7-7" />
+          </svg>
         </motion.div>
-      )}
+      </motion.div>
     </section>
   );
 }
