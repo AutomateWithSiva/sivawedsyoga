@@ -36,10 +36,10 @@ export default function Hero() {
         <img
           src={HERO_IMAGE}
           alt=""
-          className="absolute inset-0 w-full h-full object-cover object-top blur-[6px]"
+          className="absolute inset-0 w-full h-full object-cover object-top blur-[3px]"
           onLoad={() => setVideoReady(true)}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/70 to-black/90" />
       </div>
 
       {/* Text overlay – exact copy (z-20 so above any overlay) */}
