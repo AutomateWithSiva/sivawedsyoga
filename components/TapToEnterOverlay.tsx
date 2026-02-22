@@ -5,22 +5,25 @@ import { useWeddingMusic } from "@/contexts/WeddingMusicContext";
 import { COUPLE, EVENT } from "@/lib/constants";
 
 export default function TapToEnterOverlay() {
-  const { unmute } = useWeddingMusic();
+  const { unmute, play } = useWeddingMusic();
   const [visible, setVisible] = useState(true);
+  const [textHidden, setTextHidden] = useState(false);
   const [curtainsOpen, setCurtainsOpen] = useState(false);
   const handled = useRef(false);
-  const leftRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   const handleEnter = useCallback(() => {
     if (handled.current) return;
     handled.current = true;
+    setTextHidden(true);
     unmute();
+    play();
     setCurtainsOpen(true);
-  }, [unmute]);
+  }, [unmute, play]);
 
   const handleTransitionEnd = useCallback(
     (e: React.TransitionEvent) => {
-      if (e.target !== leftRef.current) return;
+      if (e.target !== panelRef.current) return;
       if (e.propertyName === "transform") setVisible(false);
     },
     []
@@ -30,7 +33,7 @@ export default function TapToEnterOverlay() {
 
   return (
     <div
-      className={`fixed inset-0 z-[100] overflow-hidden ${curtainsOpen ? "curtains-open" : ""}`}
+      className={`fixed inset-0 z-[100] overflow-hidden ${curtainsOpen ? "overlay-screen-open" : ""}`}
       aria-hidden={curtainsOpen}
     >
       <button
@@ -43,7 +46,10 @@ export default function TapToEnterOverlay() {
         className="absolute inset-0 z-10 w-full h-full cursor-pointer select-none flex flex-col items-center justify-center gap-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] focus-visible:ring-inset"
         aria-label="Tap to enter invitation"
       >
-        <div className="flex flex-col items-center justify-center gap-4 px-6 text-center pointer-events-none max-w-lg">
+        <div
+          className={`flex flex-col items-center justify-center gap-4 px-6 text-center pointer-events-none max-w-lg ${textHidden ? "opacity-0 pointer-events-none" : ""}`}
+          style={{ transition: "none" }}
+        >
           <p
             className="font-heading text-3xl sm:text-4xl md:text-5xl font-semibold tracking-wide"
             style={{ color: "var(--text)" }}
@@ -67,14 +73,10 @@ export default function TapToEnterOverlay() {
       </button>
 
       <div
-        ref={leftRef}
-        className="curtain-panel curtain-panel-left absolute left-0 top-0 bottom-0 w-1/2 pattern-kolam backdrop-blur-sm"
+        ref={panelRef}
+        className="overlay-screen-panel absolute inset-0 pattern-kolam backdrop-blur-sm"
         style={{ backgroundColor: "rgba(250, 248, 245, 0.97)" }}
         onTransitionEnd={handleTransitionEnd}
-      />
-      <div
-        className="curtain-panel curtain-panel-right absolute right-0 top-0 bottom-0 w-1/2 pattern-kolam backdrop-blur-sm"
-        style={{ backgroundColor: "rgba(250, 248, 245, 0.97)" }}
       />
     </div>
   );

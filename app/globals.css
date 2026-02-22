@@ -64,18 +64,15 @@ body {
   75% { background-position: 0% 50%; }
 }
 
-/* Curtain opening overlay */
-.curtain-panel {
+/* Overlay screen – opens bottom to top */
+.overlay-screen-panel {
   transition: transform 0.9s cubic-bezier(0.32, 0.72, 0, 1);
 }
-.curtains-open .curtain-panel-left {
-  transform: translateX(-100%);
-}
-.curtains-open .curtain-panel-right {
-  transform: translateX(100%);
+.overlay-screen-open .overlay-screen-panel {
+  transform: translateY(-100%);
 }
 @media (prefers-reduced-motion: reduce) {
-  .curtain-panel {
+  .overlay-screen-panel {
     transition-duration: 0.2s;
   }
 }

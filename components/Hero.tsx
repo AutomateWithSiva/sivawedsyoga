@@ -35,6 +35,30 @@ export default function Hero() {
     return () => mq.removeEventListener("change", handler);
   }, []);
 
+  useEffect(() => {
+    const onVisibilityChange = () => {
+      if (document.visibilityState !== "visible") return;
+      const video = videoRef.current;
+      if (video?.paused) video.play().catch(() => {});
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", onVisibilityChange);
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [e] = entries;
+        if (e?.isIntersecting && video.paused) video.play().catch(() => {});
+      },
+      { threshold: 0.25 }
+    );
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
+
   const shouldAutoplay = !reduceMotion;
   const videoSrc = encodeURI(HERO_VIDEO.src);
   const posterSrc = HERO_VIDEO.poster;
@@ -62,7 +86,7 @@ export default function Hero() {
           playsInline
           preload="auto"
           poster={posterSrc}
-          className="absolute inset-0 w-full h-full object-cover object-center blur-[4px]"
+          className="absolute inset-0 w-full h-full object-cover object-center blur-[6px]"
           aria-label="Wedding video"
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
@@ -132,20 +156,34 @@ export default function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* Scroll indicator – respect reduced motion (visible on all screens) */}
+      {/* Scroll indicator – arrow + hint (respect reduced motion) */}
       {!reduceMotion && (
         <motion.div
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20"
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 0.6 }}
         >
+          <span className="font-body text-amber-200/90 text-xs sm:text-sm tracking-widest uppercase">
+            Scroll down
+          </span>
           <motion.div
-            className="w-6 h-10 rounded-full border-2 border-amber-400/60 flex justify-center pt-2"
-            animate={{ y: [0, 6, 0] }}
+            className="flex flex-col items-center"
+            animate={{ y: [0, 8, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           >
-            <div className="w-1 h-2 rounded-full bg-amber-300/90" />
+            <svg
+              className="w-8 h-8 sm:w-10 sm:h-10 text-amber-400/80"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              viewBox="0 0 24 24"
+              aria-hidden
+            >
+              <path d="M12 5v14M19 12l-7 7-7-7" />
+            </svg>
           </motion.div>
         </motion.div>
       )}
