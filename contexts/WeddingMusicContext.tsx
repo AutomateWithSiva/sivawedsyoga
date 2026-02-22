@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, useRef, useCallback } from "react";
 import { AUDIO } from "@/lib/constants";
+import { useAssetsLoader } from "@/contexts/AssetsLoaderContext";
 
 const STORAGE_KEY = "wedding-music-preference";
 const STORAGE_KEY_TIME = "wedding-music-time";
@@ -44,6 +45,7 @@ function saveTime(t: number) {
 }
 
 export function WeddingMusicProvider({ children }: { children: React.ReactNode }) {
+  const { setAudioReady, setAudioProgress } = useAssetsLoader();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const isPlayingRef = useRef(true);
   const [isPlaying, setIsPlaying] = useState(true);
@@ -55,6 +57,26 @@ export function WeddingMusicProvider({ children }: { children: React.ReactNode }
     audio.volume = 0.25;
     audio.muted = true;
     audioRef.current = audio;
+
+    const onReady = () => {
+      setAudioReady(true);
+      setAudioProgress(100);
+    };
+    const onProgress = () => {
+      try {
+        const b = audio.buffered;
+        if (b.length > 0 && Number.isFinite(audio.duration) && audio.duration > 0) {
+          setAudioProgress((b.end(b.length - 1) / audio.duration) * 100);
+        }
+      } catch {
+        /**/
+      }
+    };
+    audio.addEventListener("loadeddata", onReady);
+    audio.addEventListener("canplay", onReady);
+    audio.addEventListener("progress", onProgress);
+    if (audio.readyState >= 1) onReady();
+    else onProgress();
 
     const savedTime = readSavedTime();
     if (savedTime > 0) audio.currentTime = savedTime;
@@ -81,13 +103,16 @@ export function WeddingMusicProvider({ children }: { children: React.ReactNode }
     const interval = setInterval(saveState, 2000);
 
     return () => {
+      audio.removeEventListener("loadeddata", onReady);
+      audio.removeEventListener("canplay", onReady);
+      audio.removeEventListener("progress", onProgress);
       clearInterval(interval);
       window.removeEventListener("pagehide", saveState);
       saveState();
       audio.pause();
       audioRef.current = null;
     };
-  }, []);
+  }, [setAudioReady, setAudioProgress]);
 
   const unmute = useCallback(() => {
     if (audioRef.current) audioRef.current.muted = false;

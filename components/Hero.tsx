@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { HERO_VIDEO } from "@/lib/constants";
 import CountdownOverlay from "./CountdownOverlay";
+import { useAssetsLoader } from "@/contexts/AssetsLoaderContext";
 
 const container = {
   hidden: { opacity: 0 },
@@ -23,6 +24,7 @@ const item = {
 };
 
 export default function Hero() {
+  const { setVideoReady } = useAssetsLoader();
   const [reduceMotion, setReduceMotion] = useState(false);
   const [playing, setPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -60,8 +62,10 @@ export default function Hero() {
   }, []);
 
   const shouldAutoplay = !reduceMotion;
+  const useGif = HERO_VIDEO.gif;
   const videoSrc = encodeURI(HERO_VIDEO.src);
   const posterSrc = HERO_VIDEO.poster;
+  const heroBgClass = "absolute inset-0 w-full h-full object-cover object-center blur-[6px]";
 
   const handlePlayClick = () => {
     if (videoRef.current) {
@@ -76,44 +80,58 @@ export default function Hero() {
       className="relative z-10 min-h-screen flex flex-col items-center justify-center overflow-hidden bg-stone-900 px-4 py-12 md:py-20"
       aria-label="Welcome"
     >
-      {/* Full vertical video – fills viewport height on all screens */}
+      {/* Hero background: GIF (reliable loop on all browsers) or video */}
       <div className="absolute inset-0">
-        <video
-          ref={videoRef}
-          autoPlay={shouldAutoplay}
-          loop
-          muted
-          playsInline
-          preload="auto"
-          poster={posterSrc}
-          className="absolute inset-0 w-full h-full object-cover object-center blur-[6px]"
-          aria-label="Wedding video"
-          onPlay={() => setPlaying(true)}
-          onPause={() => setPlaying(false)}
-          onEnded={() => {
-            if (videoRef.current) {
-              videoRef.current.currentTime = 0;
-              videoRef.current.play().catch(() => {});
-            }
-          }}
-        >
-          <source src={videoSrc} type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/70" />
-        {reduceMotion && !playing && (
-          <button
-            type="button"
-            onClick={handlePlayClick}
-            className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/10 transition-colors z-10"
-            aria-label="Play video"
-          >
-            <span className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/20 backdrop-blur flex items-center justify-center text-white">
-              <svg className="w-8 h-8 md:w-10 md:h-10 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </span>
-          </button>
+        {useGif ? (
+          <>
+            {reduceMotion ? (
+              <img src={posterSrc} alt="" className={heroBgClass} onLoad={() => setVideoReady(true)} />
+            ) : (
+              <img src={useGif} alt="" className={heroBgClass} onLoad={() => setVideoReady(true)} />
+            )}
+          </>
+        ) : (
+          <>
+            <video
+              ref={videoRef}
+              autoPlay={shouldAutoplay}
+              loop
+              muted
+              playsInline
+              preload="auto"
+              poster={posterSrc}
+              className={heroBgClass}
+              aria-label="Wedding video"
+              onLoadedData={() => setVideoReady(true)}
+              onCanPlay={() => setVideoReady(true)}
+              onPlay={() => setPlaying(true)}
+              onPause={() => setPlaying(false)}
+              onEnded={() => {
+                if (videoRef.current) {
+                  videoRef.current.currentTime = 0;
+                  videoRef.current.play().catch(() => {});
+                }
+              }}
+            >
+              <source src={videoSrc} type="video/mp4" />
+            </video>
+            {reduceMotion && !playing && (
+              <button
+                type="button"
+                onClick={handlePlayClick}
+                className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/10 transition-colors z-10"
+                aria-label="Play video"
+              >
+                <span className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/20 backdrop-blur flex items-center justify-center text-white">
+                  <svg className="w-8 h-8 md:w-10 md:h-10 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </span>
+              </button>
+            )}
+          </>
         )}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/70" />
       </div>
 
       {/* Text overlay – exact copy (z-20 so above any overlay) */}
@@ -159,7 +177,7 @@ export default function Hero() {
       {/* Scroll indicator – arrow + hint (respect reduced motion) */}
       {!reduceMotion && (
         <motion.div
-          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
+          className="absolute bottom-16 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 0.6 }}

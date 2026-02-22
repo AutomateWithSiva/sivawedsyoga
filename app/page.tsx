@@ -7,10 +7,12 @@ import Gallery from "@/components/Gallery";
 import VenueMap from "@/components/VenueMap";
 import GiftSection from "@/components/GiftSection";
 import Footer from "@/components/Footer";
+import { AssetsLoaderProvider } from "@/contexts/AssetsLoaderContext";
 import { WeddingMusicProvider } from "@/contexts/WeddingMusicContext";
 
 export default function Home() {
   return (
+    <AssetsLoaderProvider>
     <WeddingMusicProvider>
       <main className="min-h-screen overflow-x-hidden max-w-full">
         <TapToEnterOverlay />
@@ -26,5 +28,6 @@ export default function Home() {
         <Footer />
       </main>
     </WeddingMusicProvider>
+    </AssetsLoaderProvider>
   );
 }
