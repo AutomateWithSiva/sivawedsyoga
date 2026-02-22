@@ -79,12 +79,12 @@ export default function TapToEnterOverlay() {
           style={{ transition: "none" }}
         >
           <p
-            className="font-heading text-3xl sm:text-4xl md:text-5xl font-semibold tracking-wide"
+            className="font-heading text-5xl sm:text-5xl md:text-6xl font-semibold tracking-wide"
             style={{ color: "var(--text)" }}
           >
             You&apos;re Invited
           </p>
-          <p className="font-body text-base sm:text-lg text-theme-muted leading-relaxed">
+          <p className="font-body text-xl sm:text-xl md:text-2xl text-theme-muted leading-relaxed">
             to celebrate the {EVENT.title} of {COUPLE.names}
           </p>
           <span

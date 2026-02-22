@@ -36,7 +36,7 @@ export default function Hero() {
         <img
           src={HERO_IMAGE}
           alt=""
-          className="absolute inset-0 w-full h-full object-cover object-center blur-[6px]"
+          className="absolute inset-0 w-full h-full object-cover object-top blur-[6px]"
           onLoad={() => setVideoReady(true)}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/70" />
@@ -49,10 +49,10 @@ export default function Hero() {
         initial="visible"
         animate="visible"
       >
-        <motion.p variants={item} className="font-heading text-amber-200/95 text-sm sm:text-base md:text-lg tracking-[0.2em] sm:tracking-[0.3em] uppercase mb-2">
+        <motion.p variants={item} className="font-heading font-bold text-amber-200/95 text-lg sm:text-xl md:text-2xl tracking-[0.2em] sm:tracking-[0.3em] uppercase mb-2">
           {"You're Invited"}
         </motion.p>
-        <motion.p variants={item} className="font-body text-cream-200/90 text-base sm:text-lg md:text-xl mb-4">
+        <motion.p variants={item} className="font-body text-cream-200/90 text-xl sm:text-2xl md:text-3xl mb-4">
           to celebrate the Wedding Reception of
         </motion.p>
         <motion.div variants={item} className="text-center mb-6">
